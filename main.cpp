@@ -35,6 +35,7 @@ void reg();
 void search();
 void intoData();
 void makeReg();
+void cancelReg();
 string pickDate();
 string pickTime();
 void login();
@@ -42,10 +43,12 @@ string getRandomCode();
 string code = getRandomCode();
 
 int main(){ // main function
+	system ("cls");
 	bool logincheck ;
 	int c;
 	bool loop = 1;
 	while(loop){
+		system ("cls");
 		logo();
 		cout << "\t\t\t\t1 - LOG IN\n";
 		cout << "\t\t\t\t2 - CREATE AN ACCOUNT\n";
@@ -80,8 +83,10 @@ int main(){ // main function
 				break;
 			case 4:
 				return 0;
+				break;
 			default:
-				cout << "INVALID CHOICE!";
+				cout << "\nINVALID CHOICE!\n";
+				return 0;
 				break;
 		}
 	}
@@ -123,6 +128,7 @@ void menu(){
 				break;
 		}
 	}
+	main();
 
 }
 
@@ -346,6 +352,9 @@ void search(){
 		}
 	}
 	inFile.close();
+}
+
+void cancelRes(){
 }
 
 
