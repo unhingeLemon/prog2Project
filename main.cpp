@@ -13,6 +13,8 @@ string pass;
 int choice;
 int c;
 int numPassenger;
+bool searchSuc = false;
+
 
 ofstream outfile("adminData.txt", std::ios_base::app);
 ifstream file("adminData.txt");
@@ -35,12 +37,12 @@ void reg();
 void search();
 void intoData();
 void makeReg();
-void cancelReg();
+void cancelRes();
 string pickDate();
 string pickTime();
 void login();
 string getRandomCode();
-string code = getRandomCode();
+string code;
 
 int main(){ // main function
 	system ("cls");
@@ -52,7 +54,7 @@ int main(){ // main function
 		logo();
 		cout << "\t\t\t\t1 - LOG IN\n";
 		cout << "\t\t\t\t2 - CREATE AN ACCOUNT\n";
-		cout << "\t\t\t\t3 - SEARCH PASSENGER\n";
+		cout << "\t\t\t\t3 - SEARCH FLIGHT\n";
 		cout << "\t\t\t\t4 - EXIT PROGRAM\n\t\t\t\t>: ";
 		cin >> c;
 		switch (c){
@@ -60,8 +62,9 @@ int main(){ // main function
 				login();
 				logincheck = checklogin(admin,pass);
 				if(logincheck){
-					cout << "\n\t\t\t\tWELCOME BACK " << admin << endl;
-					cout << "\t\t\t\t." << system("pause");
+					cout << "\n\t\t\t\tWELCOME BACK " << admin;
+					cout << "!\n\t\t\t\t";
+					system("pause");
 					system("cls");
 					menu();
 				} else {
@@ -70,8 +73,8 @@ int main(){ // main function
 				break;
 			case 2:
 				reg();
-				cout << "\t\t\t\tYOUR ACCOUNT HASE BEEN MADE!!\n";
-				cout << "\t\t\t\t" << system("pause");
+				cout << "\t\t\t\tYOUR ACCOUNT HASE BEEN MADE!!\n\t\t\t\t";
+				system("pause");
 				system("cls");
 				c = 1;
 				break;
@@ -79,6 +82,9 @@ int main(){ // main function
 				system ("cls");
 				logo();
 				search();
+				if(searchSuc == false){
+					cout << "\n\t\t\t\tFLIGHT DOES NOT EXIST!\n\n\t\t\t\t\n";
+				}
 				system("pause");
 				break;
 			case 4:
@@ -120,6 +126,10 @@ void menu(){
 			case 1:
 				makeReg();
 				break;
+			case 2:
+				system ("cls");
+				logo();
+				cancelRes();
 			case 3:
 				outReceipt();
 				break;
@@ -200,6 +210,7 @@ string getRandomCode(){
 	string s;
 	int i;
 	char cmptchoice[5];
+	srand(time(NULL));
     for (i=0; i<5; i++){
 		cmptchoice [i] = (90 - (rand() % 26));
     }
@@ -257,8 +268,8 @@ void outReceipt(){
 	//ifstream file("flightUserData.txt", std::ios_base::app);
 	outFile << "FLIGHT CODE: " << code << endl;
 	outFile << "NAME: " << admin << endl;
-	outFile << "FLYING FROM: " << info.flyF << " AIRPORT" << endl;
-	outFile << "FLYING TO: " << info.flyT << " AIRPORT"  << endl;
+	outFile << "FLYING FROM: " << info.flyF << "-AIRPORT" << endl;
+	outFile << "FLYING TO: " << info.flyT << "-AIRPORT"  << endl;
 	outFile << "DEPARTING ON: " << info.depOn << endl;
 	outFile << "DEPARTING TIME: " << info.depTime << endl;
 	outFile << "RETURNING ON: " <<  info.retOn << endl;
@@ -276,10 +287,11 @@ void outReceipt(){
 void intoData(){
 	//this will go into flightdata.txt make search algo work
 	ofstream outFile2("flightDatas.txt", std::ios_base::app);
-	outFile2 << code << endl;
+	outFile2 << getRandomCode() << endl;
+	code = getRandomCode();
 	outFile2 << admin << endl;
-	outFile2 << info.flyF << " AIRPORT" << endl;
-	outFile2 << info.flyT << " AIRPORT"  << endl;
+	outFile2 << info.flyF << "-AIRPORT" << endl;
+	outFile2 << info.flyT << "-AIRPORT"  << endl;
 	outFile2 << info.depOn << endl;
 	outFile2 << info.depTime << endl;
 	outFile2 <<  info.retOn << endl;
@@ -302,6 +314,9 @@ void search(){
 	// this will find the code and cout the 13lines after it
 	while(!inFile.eof()){
 		inFile >> line;
+		if (line == fnum){
+			searchSuc = true;
+		}
 		if (line == fnum){
 			for(int i = 0; i < 13;i++){
 				switch (i){
@@ -355,6 +370,27 @@ void search(){
 }
 
 void cancelRes(){
+	string line;
+	ifstream inFile("flightDatas.txt", std::ios_base::app);
+	ofstream outFile("flightDatasTemp.txt", std::ios_base::app);
+	string fnum;
+	cout << "\n\t\t\t\t\tTYPE THE FLIGHT CODE: \n\t\t\t\t\t>: ";
+	cin >> fnum;
+	while (!inFile.eof()){
+		inFile >> line;
+		if (line == fnum){
+			for(int i = 0; i < 13;i++){
+				inFile >> line;
+			}
+		}
+		outFile << line << endl;
+	}
+	inFile.close();
+	outFile.close();
+	system("del.\\flightDatas.txt");
+	system("ren.\\flightDatasTemp.txt flightDatas.txt");
+	cout << "\n\t\t\t\tSUCCESSFULLY CANCELED THE FLIGHT!\n\t\t\t\t\n";
+	system("pause");
 }
 
 
