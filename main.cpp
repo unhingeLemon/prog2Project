@@ -49,6 +49,7 @@ int main(){ // main function
 	bool logincheck ;
 	int c;
 	bool loop = 1;
+	bool l = 1;
 	while(loop){
 		system ("cls");
 		logo();
@@ -68,8 +69,10 @@ int main(){ // main function
 					system("cls");
 					menu();
 				} else {
-					cout << "\n\t\t\t\tINVALID USER CREDENTIALS";
-				}
+					cout << "\n\t\t\t\tINVALID USER CREDENTIALS PLEASE RUN THE PROGRAM AGAIN!\n\t\t\t\t";
+					system("pause");
+					return 0;
+				}					
 				break;
 			case 2:
 				reg();
@@ -91,7 +94,8 @@ int main(){ // main function
 				return 0;
 				break;
 			default:
-				cout << "\nINVALID CHOICE!\n";
+				cout << "\nINVALID CHOICE!\n\t\t\t\t";
+				system("pause");
 				return 0;
 				break;
 		}
@@ -280,6 +284,9 @@ void outReceipt(){
 	outFile << "NUMBER OF PASSENGER(s): " << numPassenger << endl;
 	float gtotal = numPassenger * 2020;
 	outFile << "GRAND TOTAL P " << gtotal<< endl;
+	logo();
+	cout << "\n\t\t\t\tSUCCESSFULLY PRINTED THE RECEIPT!, PLEASE OPEN RECEIPT.TXT\n\t\t\t\t";
+	system("pause");
 	outFile.close();
 
 }
@@ -392,5 +399,4 @@ void cancelRes(){
 	cout << "\n\t\t\t\tSUCCESSFULLY CANCELED THE FLIGHT!\n\t\t\t\t\n";
 	system("pause");
 }
-
 
