@@ -134,6 +134,7 @@ void menu(){
 				system ("cls");
 				logo();
 				cancelRes();
+				break;
 			case 3:
 				outReceipt();
 				break;
